@@ -51,6 +51,32 @@ try {
     echo "Errore nell'invio dell'email: {$mail->ErrorInfo}";
 }
 
+// Collegati al database SQLite
+$db = new SQLite3('MyDb.db');
+$ok = false;
+for ($i = 0; $i < $lunghezza; $i++) {
 
 
+
+// Aggiorna la mansione nella tabella dipendenti usando prepared statements
+$stmt = $db->prepare('UPDATE scarpe SET qnt = qnt - :qnt WHERE modello = :modello');
+$stmt->bindValue(':modello', $listaModelli[$i], SQLITE3_TEXT);
+$stmt->bindValue(':qnt',$listaPezzi[$i] , SQLITE3_TEXT);
+// Esegui la query e controlla il risultato
+if ($stmt->execute()) {
+    if ($db->changes() > 0) {
+        $ok = true;
+    } else {
+        echo "Errore: nessuna scarpa trovata con il nome specificato.";
+    }
+} else {
+    echo "Errore nell'aggiornamento dei pezzi: " . $db->lastErrorMsg();
+}
+
+}
+
+if ($ok == true) {
+    echo("<br>");
+    echo("<h1>Ordine confermato<h1>");
+}
 ?>
