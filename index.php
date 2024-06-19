@@ -32,7 +32,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     " - Quantità: " . $row['qnt'] . "<br>" . 
      "Modello: " . $row['modello'] . "<br>");
      echo("</div>"); 
-     echo("<input type='checkbox' id='vehicle1' name='" . $row['modello'] . "' value='" . $row['modello'] . "'>");
+     echo("<input type='hidden' id='vehicle1' value = '" . $row['modello'] . "' name='" . $row['modello'] . "'>");
      echo("<input type = 'number' value = '0' name = '" . $row['id'] . "'> ");
      echo("</div>");
     
