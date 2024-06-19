@@ -11,6 +11,7 @@ $result = $db->query($query);
 $totale = 0;
 $listaModelli = [];
 $listaPezzi = [];
+$listaUrl = [];
 
 while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     
@@ -22,6 +23,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         
         array_push($listaModelli,$row['modello']);
     array_push($listaPezzi,$pezzi);
+    array_push($listaUrl,$row['img']);
     $somma += $row['costo'] * $pezzi;
 
 
@@ -39,9 +41,12 @@ $lunghezza = count($listaModelli);
 for ($i = 0; $i < $lunghezza; $i++) {
     echo "Ordine: ". ($i +1) .  " " . $listaModelli[$i] . "<br>";
     echo "In " . $listaPezzi[$i] . " pezzi" . "<br>";
+    echo '<br><img src="' . $listaUrl[$i] . '" alt="Immagine del modello">';
+    echo("<hr>");
 }
 $_SESSION["listaM"] = $listaModelli;
 $_SESSION["listaP"] = $listaPezzi;
+$_SESSION["listaU"] = $listaUrl;
 $_SESSION["somma"] = $somma;
 
 
@@ -60,3 +65,10 @@ echo("<input type = 'submit' value = 'conferma'>");
 echo("</form>");
 
 ?>
+
+<style>
+img {
+    width: 300px;
+    height: 300px;
+}
+</style>

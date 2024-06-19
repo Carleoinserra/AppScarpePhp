@@ -4,6 +4,7 @@ session_start();
 $listaModelli = $_SESSION["listaM"];
 $listaPezzi = $_SESSION["listaP"];
 $somma = $_SESSION["somma"];
+$immagini = $_SESSION["listaU"];
 $email = $_POST['mail'];
 
 $stringaModelli = "";
@@ -38,11 +39,22 @@ try {
     // Destinatario
     $mail->setFrom('inserracarlo@gmail.com', 'negozio Talentform');
     $mail->addAddress($email, 'Recipient Name');
+    // Corpo dell'email iniziale
+    $bodyContent = $stringaModelli . " per la somma di: " . $somma . '<br>';
+
+    // aggiungiamo le immagini alla mail
+    // Aggiungi ciascuna immagine come incorporata e aggiungi al corpo dell'email
+    // Aggiungi ciascuna immagine come incorporata e aggiungi al corpo dell'email
+    // Aggiungi ciascuna immagine come URL nel corpo dell'email
+    for ($i = 0; $i < count($immagini); $i++) {
+        $urlImmagine = $immagini[$i];
+        $bodyContent .= '<br><img src="' . $urlImmagine . '" alt="Immagine del modello">';
+    }
 
     // Contenuto dell'email
     $mail->isHTML(true);
     $mail->Subject = 'Ordine confermato';
-    $mail->Body    = $stringaModelli . " per la somma di: " . $somma;
+    $mail->Body    = $bodyContent;
     $mail->AltBody = 'This is a test email sent from PHP using PHPMailer.';
 
     $mail->send();
